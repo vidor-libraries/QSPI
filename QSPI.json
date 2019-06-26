@@ -1,0 +1,61 @@
+{
+  "module":{
+    "name":"arduino_generic_quad_spi_controller2",
+    "version":"18.1",
+    "parameters":[
+      {"name":"ATOM"                  , "def":"UNIDIRECTIONAL"},
+      {"name":"AUTO_DEVICE"           , "def":"10CL016YU256C8G"},
+      {"name":"AUTO_DEVICE_SPEEDGRADE", "def":"8"},
+      {"name":"CHIP_SELS"             , "def":"1"},
+      {"name":"DDASI"                 , "def":"1"},
+      {"name":"DEVICE_FAMILY"         , "def":"Cyclone 10 LP"},
+      {"name":"FLASH_TYPE"            , "def":"N25Q16"},
+      {"name":"GUI_USE_GPIO"          , "def":"false"},
+      {"name":"IO_MODE"               , "def":"QUAD"},
+      {"name":"clkFreq"               , "def":"40000000"},
+      {"name":"ncs_count"             , "def":"1"}
+    ]
+  },
+  "interfaces":[
+    {
+      "name":"atom_ports",
+      "mates":["pins"],
+      "parameters":["ncs_count"],
+      "visibility":"2",
+      "signals": [
+        {"name":"dclk"   , "bits":"1"        , "direction":"output"},
+        {"name":"ncs"    , "bits":"ncs_count", "direction":"output"},
+        {"name":"oe"     , "bits":"1"        , "direction":"output"},
+        {"name":"dataout", "bits":"4"        , "direction":"output"},
+        {"name":"dataoe" , "bits":"4"        , "direction":"output"},
+        {"name":"datain" , "bits":"4"        , "direction":"input" }
+      ]
+    }
+  ],
+  "hw":[
+    {
+      "interface":"avalon_slave",
+      "name":"avl_csr",
+      "parameters":[
+        {"signal":"clock", "name":"clock", "value":"clock_sink"},
+        {"signal":"address", "name":"SPAN", "value":"4"},
+        {"signal":"read_data", "name":"BIT_WIDTH", "value":"32"},
+        {"signal":"write_data", "name":"BIT_WIDTH", "value":"32"}
+      ]
+    },
+    {
+      "interface":"avalon_slave",
+      "name":"avl_mem",
+      "parameters":[
+        {"signal":"clock", "name":"clock", "value":"clock_sink"},
+        {"signal":"address", "name":"SPAN", "value":"19"},
+        {"signal":"read_data", "name":"BIT_WIDTH", "value":"32"},
+        {"signal":"write_data", "name":"BIT_WIDTH", "value":"32"}
+      ]
+    },
+    {
+      "interface":"atom_ports",
+      "name":"atom_ports"
+    }
+  ]
+}
